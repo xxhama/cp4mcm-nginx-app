@@ -306,7 +306,6 @@ spec:
 
   * name: Optional, but required for using a placement rule. The name of the placement rule for the subscription.
   * kind: Optional, but required for using a placement rule. Set the value to `PlacementRule` to indicate that a placement rule is used for deployments with the subscription.
-  * group: MISSING 
 
   ## App
 
@@ -354,8 +353,6 @@ spec:
 
   * **spec.selector.matchLabels.app**
 
-    * MISSING
-
     ## Image Policy 
 
     If you have IBM Container Image Security Enforcement enabled in your MCM cluster, you can limit where images are allowed to be pulled from by specifying the allowed repositories to use. Lets see our image-policy.yaml file. 
@@ -390,37 +387,39 @@ Now that we have covered our resources and know what each of them do, we can go 
 
 1. Login to your OpenShift environment by copying your login credentials from the Openshift UI.
 
-`oc login --token=<your_token> --server=<server url>`
-
+    `oc login --token=<your_token> --server=<server url>`
 2. Clone the github repo and open the resource directory.
 
-`git clone https://github.com/vsrn09/cp4mcm-nginx-app.git`
+    `git clone https://github.com/vsrn09/cp4mcm-nginx-app.git`
 
-` cd resources `
+    ` cd resources `
+3. Create nginx-app namespaces
+
+    `oc apply -f namespace.yaml`
 
 3. If you have IBM Container Image Security Enforecement enabled and would like to allow all repos to be used run the following command. 
 
-`oc apply -f image-policy.yaml`
+    `oc apply -f image-policy.yaml`
 
 3. Create your channel. 
 
-` oc apply -f 00-channel.yaml`
+    `oc apply -f 00-channel.yaml`
 
-4. Run the following command to install the Nginx App. 
+4. Run the following command to create a deployment of Nginx App. 
 
-`oc apply -f 01-nginx-deployable.yaml`
+    `oc apply -f 01-nginx-deployable.yaml`
 
 5. Crate your Placement Rule by running the follwoing command. 
 
-`oc apply -f 02-placement-rule.yaml`
+    `oc apply -f 02-placement-rule.yaml`
 
 6. Create your subcription with the following command. 
 
-`oc apply -f 03-subscription.yaml`
+    `oc apply -f 03-subscription.yaml`
 
 7. Create your application resource with the following oc command. 
 
-`oc apply -f 04-app.yaml`
+    `oc apply -f 04-app.yaml`
 
 This will not deploy the application to a targeted cluster as the placement rule has to be met first. For our placement rule, there needs to be a healthy targeted cluster with the label `environment` set to `Dev`. Once a targeted cluster meets this criteria, the application will then be deployed to that cluster. 
 
