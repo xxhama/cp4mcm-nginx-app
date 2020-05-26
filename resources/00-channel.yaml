@@ -6,4 +6,4 @@ metadata:
   namespace: nginx-channel
 spec:  
     type: GitHub
-    pathname: https://github.com/vsrn09/cp4mcm-nginx-app/resources  
+    pathname: https://github.com/xxhama/cp4mcm-nginx-app.git
